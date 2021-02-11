@@ -1,4 +1,5 @@
 set nocompatible
+set whichwrap+=<,>,[,]
 set complete=.,w,b,u,t,i,]
 set ignorecase
 set ruler
@@ -43,13 +44,9 @@ let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-												\ 'javascript':['eslint'],
-												\ 'typescript':['tslint'],
 												\ 'rust':['rustfmt'],
 												\}
 let g:ale_linters = {
-												\ 'typescript':['tslint'],
-												\ 'javascript':['eslint'],
 												\ 'rust':['analyzer'],
 												\}
 
@@ -73,7 +70,6 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 inoremap <expr> <Tab> pumvisible() ? '<C-n>' : SkipClosingPair()
-
 
 nnoremap <leader>cb :vert :term cargo build<CR><C-W><C-w>
 nnoremap <leader>cr :vert :term cargo run<CR><C-w><C-w>
