@@ -8,8 +8,8 @@ set laststatus=2
 set backspace=indent,eol,start
 set clipboard=unnamedplus
 set shortmess+=c
-set completeopt=menuone,longest
 set timeoutlen=3000
+set completeopt=menuone,longest
 set hlsearch
 set incsearch
 set showmatch
@@ -43,13 +43,9 @@ let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-												\ 'javascript':['eslint'],
-												\ 'typescript':['tslint'],
 												\ 'rust':['rustfmt'],
 												\}
 let g:ale_linters = {
-												\ 'typescript':['tslint'],
-												\ 'javascript':['eslint'],
 												\ 'rust':['analyzer'],
 												\}
 
@@ -74,7 +70,6 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
 
 inoremap <expr> <Tab> pumvisible() ? '<C-n>' : SkipClosingPair()
 
-
 nnoremap <leader>cb :vert :term cargo build<CR><C-W><C-w>
 nnoremap <leader>cr :vert :term cargo run<CR><C-w><C-w>
 
@@ -95,6 +90,9 @@ vmap <C-c> "+y<Esc>
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History<CR>
+nnoremap <leader>ts :tabs<CR>
+nnoremap <leader>tp :tabp<CR>
+nnoremap <leader>tn :tabn<CR>
 
 nmap <silent> <C-l>g :ALEGoToDefinition<CR>
 nmap <silent> <C-l>. :ALECodeAction<CR>
