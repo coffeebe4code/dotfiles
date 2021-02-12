@@ -1,4 +1,5 @@
 set nocompatible
+set whichwrap+=<,>,[,]
 set complete=.,w,b,u,t,i,]
 set ignorecase
 set ruler
