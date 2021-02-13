@@ -16,7 +16,6 @@ set incsearch
 set showmatch
 set splitbelow
 set splitright
-set ttyfast
 set wildmenu
 set wildmode=list:longest,longest:full
 
@@ -53,7 +52,9 @@ let g:ale_linters = {
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
+Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
 Plug 'vim-scripts/AutoComplPop'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
