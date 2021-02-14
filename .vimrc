@@ -37,6 +37,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
+let g:user_emmet_leader_key=","
+
 set omnifunc=ale#completion#OmniFunc
 let g:ale_sign_column_always = 1
 let g:ale_completion_enabled = 1
@@ -52,6 +54,7 @@ let g:ale_linters = {
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
+Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
@@ -112,3 +115,5 @@ nnoremap <silent> <leader>ww <C-w>w<CR>
 nnoremap <silent> <leader>wh <C-w>h<CR>
 nnoremap <silent> <leader>wj <C-w>j<CR>
 nnoremap <silent> <leader>wk <C-w>k<CR>
+
+
