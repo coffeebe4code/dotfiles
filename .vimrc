@@ -79,8 +79,9 @@ nnoremap <leader>cb :vert :term cargo build<CR><C-w><C-w>
 nnoremap <leader>cr :vert :term cargo run<CR><C-w><C-w>
 nnoremap <leader>nt :vert :term npm run test<CR><C-w><C-w>
 nnoremap <leader>nr :vert :term npm run start<CR><C-w><C-w>
+
 " globals
-let g:mkdp_markdown_css='/home/christopher/source/website/src/main.css'
+let g:mkdp_markdown_css='/home/christopher/source/website/src/assets/main.css'
 
 " functions
 function! SkipClosingPair()
