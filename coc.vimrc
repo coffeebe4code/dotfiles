@@ -50,7 +50,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
-Plug 'vim-scripts/AutoComplPop'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -86,6 +85,11 @@ function! SkipClosingPair()
   return stridx("}])\'\"", current_char)==-1 ? "\<Tab>" : "\<Right>"
 endfunction
 
+function! SkipCheckAndRefresh()
+	let z = coc#refresh()
+	return SkipClosingPair()
+endfunction
+
 " mappings.
 vmap <C-c> "+y<Esc>
 nnoremap <leader>p :GFiles<CR>
@@ -97,9 +101,10 @@ nnoremap <leader>tp :tabp<CR>
 nnoremap <leader>tn :tabn<CR>
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-y>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ SkipClosingPair()
+      \ pumvisible() ? "\<C-n>\<C-y>" :
+      \ <SID>check_back_space() ? "\<Tab>"  :
+      \ SkipCheckAndRefresh() 
+
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
