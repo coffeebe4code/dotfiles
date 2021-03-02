@@ -24,7 +24,9 @@ set splitbelow
 set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
+set cursorline
 
+highlight CursorLine ctermbg=black
 highlight PmenuSel ctermbg=DarkMagenta guifg=Cyan ctermfg=Cyan guibg=DarkMagenta
 syntax enable
 " disable bells
@@ -49,8 +51,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'mattn/emmet-vim'
-Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
