@@ -24,7 +24,10 @@ set splitbelow
 set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
+set cursorline
 
+highlight CursorLine ctermbg=black
+highlight PmenuSel ctermbg=DarkMagenta guifg=Cyan ctermfg=Cyan guibg=DarkMagenta
 syntax enable
 " disable bells
 set noeb vb t_vb=
