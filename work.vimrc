@@ -10,7 +10,7 @@ set complete=.,w,b,u,t,i,]
 set ignorecase
 set ruler
 set number
-set tabstop=2
+set tabstop=1
 set laststatus=2
 set backspace=indent,eol,start
 set clipboard=unnamedplus
@@ -134,4 +134,23 @@ xmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>l. <Plug>(coc-codeaction)
 
+function! SearchAndSet(search, glob) abort
+				let g:search_and_set_search = a:search
+				execute 'vimgrep /' . a:search . '/gj' . a:glob
+				execute 'copen'
+endfunction
+
+function! ReplaceFromSearch(new) abort
+				execute 'cfdo %s/' . g:search_and_set_search . '/' . a:new . '/ge | update'
+endfunction
+
+function! SearchAndReplace(old, new, glob) abort
+				execute 'vimgrep /' . a:old . '/gj ' . a:glob
+        execute 'cfdo %s/' . a:old . '/' . a:new . '/ge | update'
+endfunction
+
 command! -nargs=0 Format :call CocAction('format')
+command! -nargs=* Sr :call SearchAndReplace(<f-args>)
+command! -nargs=* Ss :call SearchAndSet(<f-args>)
+command! -nargs=1 Rs :call ReplaceFromSearch(<f-args>)
+
