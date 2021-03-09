@@ -10,7 +10,9 @@ set complete=.,w,b,u,t,i,]
 set ignorecase
 set ruler
 set number
-set tabstop=1
+set shiftwidth=0
+set softtabstop=-1
+set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
 set clipboard=unnamedplus
@@ -51,7 +53,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'mattn/emmet-vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
