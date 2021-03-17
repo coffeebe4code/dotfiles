@@ -27,6 +27,8 @@ set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
+set wildignore+=/node_modules/**
+set wildignore+=/.git/**
 
 highlight CursorLine ctermbg=black
 highlight PmenuSel ctermbg=DarkMagenta guifg=Cyan ctermfg=Cyan guibg=DarkMagenta
@@ -69,6 +71,7 @@ inoremap [ []<Left>
 
 nnoremap <leader>nt :vert :term npm run test<CR><C-w><C-w>
 nnoremap <leader>nr :vert :term npm run start<CR><C-w><C-w>
+nnoremap <C-L> :nohlsearch<CR><C-L>
 
 " functions
 function! SkipClosingPair()
@@ -135,23 +138,36 @@ xmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>l. <Plug>(coc-codeaction)
 
-function! SearchAndSet(search, glob) abort
-				let g:search_and_set_search = a:search
-				execute 'vimgrep /' . a:search . '/gj' . a:glob
+nmap <leader>s :Ls<space>`
+nmap <leader>r :Rs<space>`
+nmap <leader>ga [c
+nmap <leader>gd c]
+nmap <leader>gp :diffput
+nmap <leader>gg :diffget
+nmap <leader>gr :diffget RE
+nmap <leader>gb :diffget BA
+nmap <leader>gl :diffget LO
+
+
+function! LiteralSearch(search, glob) abort
+				let g:search_and_set_search = escape(a:search[0:-1], '.')
+				g:search_and_set_search = escape(g:search_and_set_search, '\')
+				g:search_and_set_search = escape(g:search_and_set_search, '^')
+				g:search_and_set_search = escape(g:search_and_set_search, '$')
+				g:search_and_set_search = escape(g:search_and_set_search, '&')
+				g:search_and_set_search = escape(g:search_and_set_search, '*')
+				g:search_and_set_search = escape(g:search_and_set_search, '~')
+				g:search_and_set_search = escape(g:search_and_set_search, '[')
+				g:search_and_set_search = escape(g:search_and_set_search, ']')
+				execute 'vimgrep /' . g:search_and_set_search . '/gj' . a:glob
 				execute 'copen'
 endfunction
 
 function! ReplaceFromSearch(new) abort
-				execute 'cfdo %s/' . g:search_and_set_search . '/' . a:new . '/ge | update'
-endfunction
-
-function! SearchAndReplace(old, new, glob) abort
-				execute 'vimgrep /' . a:old . '/gj ' . a:glob
-        execute 'cfdo %s/' . a:old . '/' . a:new . '/ge | update'
+				execute 'cfdo %s/' . g:search_and_set_search . '/' . a:new[0:-1] . '/ge | update'
 endfunction
 
 command! -nargs=0 Format :call CocAction('format')
-command! -nargs=* Sr :call SearchAndReplace(<f-args>)
-command! -nargs=* Ss :call SearchAndSet(<f-args>)
+command! -nargs=* Ls :call LiteralSearch(<f-args>)
 command! -nargs=1 Rs :call ReplaceFromSearch(<f-args>)
 
