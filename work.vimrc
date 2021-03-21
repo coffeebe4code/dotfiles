@@ -51,7 +51,6 @@ let g:currentmode={
       \ 'r?' : ['Confirm ', 'green'],
       \ 't'  : ['Terminal ', 'magenta']}
 
-
 let mapleader = ","
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -160,14 +159,14 @@ nmap <leader>gb :diffget BA
 nmap <leader>gl :diffget LO
 
 function! SearchLiteral(search_glob) abort
-                let g:literal_search = join(split(a:search_glob)[0:-2])
-                let l:glob = split(a:search_glob)[-1]
-                execute 'vimgrep /' . g:literal_search . '/gj' . l:glob
-                execute 'copen'
+	let g:literal_search = join(split(a:search_glob)[0:-2])
+	let l:glob = split(a:search_glob)[-1]
+	execute 'vimgrep /' . g:literal_search . '/gj' . l:glob
+	execute 'copen'
 endfunction
 
 function! SearchReplace(new) abort
-                execute 'cfdo %s/' . g:literal_search . '/' . a:new . '/ge | update'
+  execute 'cfdo %s/' . g:literal_search . '/' . a:new . '/ge | update'
 endfunction
  
 command! -nargs=0 Format :call CocAction('format')
