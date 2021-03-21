@@ -27,67 +27,88 @@ set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
-set wildignore+=/node_modules/**
-set wildignore+=/.git/**
+set wildignore+=**/node_modules/**,**/.git/**,**/dist/**
 
-highlight CursorLine ctermbg=black
-highlight PmenuSel ctermbg=DarkMagenta guifg=Cyan ctermfg=Cyan guibg=DarkMagenta
+hi NormalStatus ctermbg=yellow
+hi CursorLine ctermbg=black
+hi PmenuSel ctermbg=black ctermfg=Cyan
 syntax enable
-" disable bells
 set noeb vb t_vb=
+
+set laststatus=2
+set statusline=\ %-10.10{StatusLineColor()}
+set statusline+=%-7.7{&modified?'-[+]-':'-\|-'}
+set statusline+=%-20.20F\ FileType:\ %y
+
+let g:currentmode={
+      \ 'n'  : ['Normal ','yellow'],
+      \ 'v'  : ['Visual ', 'cyan'],
+      \ 'V'  : ['V·Line ', 'cyan'],
+      \ '^V' : ['V·Block ', 'cyan'],
+      \ 'i'  : ['Insert ','green'],
+      \ 'R'  : ['Replace ','red'],
+      \ 'Rv' : ['V·Replace ','red'],
+      \ 'c'  : ['Command ','magenta'],
+      \ 'r'  : ['Prompt ','green'],
+      \ 'r?' : ['Confirm ', 'green'],
+      \ '!'  : ['Shell ', 'magenta'],
+      \ 't'  : ['Terminal ', 'magenta']}
+
+function! StatusLineColor()
+                execute 'hi statusline ctermfg=' . g:currentmode[mode()][1]
+                return toupper(g:currentmode[mode()][0])
+endfunction
 
 let mapleader = ","
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " plug Install automatically
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-let g:user_emmet_leader_key=","
+call plug#begin()
 
-call plug#begin('~/.vim/plugged')
-
-Plug 'vim-airline/vim-airline'
-Plug 'mattn/emmet-vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-inoremap { {}<Left>
-inoremap ( ()<Left>
-inoremap ' ''<Left>
-inoremap " ""<Left>
-inoremap [ []<Left>
-
-nnoremap <leader>nt :vert :term npm run test<CR><C-w><C-w>
-nnoremap <leader>nr :vert :term npm run start<CR><C-w><C-w>
-nnoremap <C-L> :nohlsearch<CR><C-L>
+au CursorHold * silent call CocActionAsync('highlight')
 
 " functions
 function! SkipClosingPair()
   let line = getline('.')
   let current_char = line[col('.')-1]
-	"there is more"
-  "Ignore EOL
   if col('.') == col('$')
     return "\<Tab>"
-  end
+	end
   return stridx("}])\'\"", current_char)==-1 ? "\<Tab>" : "\<Right>"
 endfunction
 
 function! SkipCheckAndRefresh()
-	let z = coc#refresh()
-	return SkipClosingPair()
+                let z = coc#refresh()
+                return SkipClosingPair()
+endfunction
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
 " mappings.
@@ -104,42 +125,33 @@ nnoremap <leader>tn :tabn<CR>
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>\<C-y>" :
       \ <SID>check_back_space() ? "\<Tab>"  :
-      \ SkipCheckAndRefresh() 
+      \ SkipCheckAndRefresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+inoremap ( ()<Left>
+inoremap ' ''<Left>
+inoremap " ""<Left>
+inoremap [ []<Left>
+
+nnoremap <C-L> :noh<CR><C-L>
 nmap <silent><leader>la <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>ld <Plug>(coc-diagnostic-next)
 nmap <silent><leader>lj <Plug>(coc-definition)
 nmap <silent><leader>l/ <Plug>(coc-references)
 nnoremap <silent><leader>lJ :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
 nmap <leader>lr <Plug>(coc-rename)
+
 xmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>l. <Plug>(coc-codeaction)
 
-nmap <leader>s :Ls<space>`
-nmap <leader>r :Rs<space>`
+nmap <leader>sl :Sl<space>
+nmap <leader>sr :Sr<space>
 nmap <leader>ga [c
 nmap <leader>gd c]
 nmap <leader>gp :diffput
@@ -148,26 +160,17 @@ nmap <leader>gr :diffget RE
 nmap <leader>gb :diffget BA
 nmap <leader>gl :diffget LO
 
-
-function! LiteralSearch(search, glob) abort
-				let g:search_and_set_search = escape(a:search[0:-1], '.')
-				g:search_and_set_search = escape(g:search_and_set_search, '\')
-				g:search_and_set_search = escape(g:search_and_set_search, '^')
-				g:search_and_set_search = escape(g:search_and_set_search, '$')
-				g:search_and_set_search = escape(g:search_and_set_search, '&')
-				g:search_and_set_search = escape(g:search_and_set_search, '*')
-				g:search_and_set_search = escape(g:search_and_set_search, '~')
-				g:search_and_set_search = escape(g:search_and_set_search, '[')
-				g:search_and_set_search = escape(g:search_and_set_search, ']')
-				execute 'vimgrep /' . g:search_and_set_search . '/gj' . a:glob
-				execute 'copen'
+function! SearchLiteral(search_glob) abort
+                let g:literal_search = join(split(a:search_glob)[0:-2])
+                let l:glob = split(a:search_glob)[-1]
+                execute 'vimgrep /' . g:literal_search . '/gj' . l:glob
+                execute 'copen'
 endfunction
 
-function! ReplaceFromSearch(new) abort
-				execute 'cfdo %s/' . g:search_and_set_search . '/' . a:new[0:-1] . '/ge | update'
+function! SearchReplace(new) abort
+                execute 'cfdo %s/' . g:literal_search . '/' . a:new . '/ge | update'
 endfunction
-
+ 
 command! -nargs=0 Format :call CocAction('format')
-command! -nargs=* Ls :call LiteralSearch(<f-args>)
-command! -nargs=1 Rs :call ReplaceFromSearch(<f-args>)
-
+command! -nargs=* Sl :call SearchLiteral(<q-args>)
+command! -nargs=1 Sr :call SearchReplace(<f-args>)
