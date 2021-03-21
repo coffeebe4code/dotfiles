@@ -29,8 +29,6 @@ set wildmode=list:longest,longest:full
 set cursorline
 set wildignore+=**/node_modules/**,**/.git/**,**/dist/**
 
-hi NormalStatus ctermbg=yellow
-hi CursorLine ctermbg=black
 hi PmenuSel ctermbg=black ctermfg=Cyan
 syntax enable
 set noeb vb t_vb=
@@ -38,7 +36,8 @@ set noeb vb t_vb=
 set laststatus=2
 set statusline=\ %-10.10{StatusLineColor()}
 set statusline+=%-7.7{&modified?'-[+]-':'-\|-'}
-set statusline+=%-20.20F\ FileType:\ %y
+set statusline+=%-20.20F
+set statusline+=%-7.7y
 
 let g:currentmode={
       \ 'n'  : ['Normal ','yellow'],
@@ -49,15 +48,9 @@ let g:currentmode={
       \ 'R'  : ['Replace ','red'],
       \ 'Rv' : ['V·Replace ','red'],
       \ 'c'  : ['Command ','magenta'],
-      \ 'r'  : ['Prompt ','green'],
       \ 'r?' : ['Confirm ', 'green'],
-      \ '!'  : ['Shell ', 'magenta'],
       \ 't'  : ['Terminal ', 'magenta']}
 
-function! StatusLineColor()
-                execute 'hi statusline ctermfg=' . g:currentmode[mode()][1]
-                return toupper(g:currentmode[mode()][0])
-endfunction
 
 let mapleader = ","
 
@@ -74,6 +67,7 @@ au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -82,6 +76,11 @@ call plug#end()
 au CursorHold * silent call CocActionAsync('highlight')
 
 " functions
+function! StatusLineColor()
+	execute 'hi statusline ctermfg=' . g:currentmode[mode()][1]
+	return toupper(g:currentmode[mode()][0])
+endfunction
+
 function! SkipClosingPair()
   let line = getline('.')
   let current_char = line[col('.')-1]
@@ -92,8 +91,8 @@ function! SkipClosingPair()
 endfunction
 
 function! SkipCheckAndRefresh()
-                let z = coc#refresh()
-                return SkipClosingPair()
+	let z = coc#refresh()
+	return SkipClosingPair()
 endfunction
 
 function! s:check_back_space() abort
