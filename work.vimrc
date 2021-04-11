@@ -27,7 +27,7 @@ set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
-set wildignore+=**/node_modules/**,**/.git/**,**/dist/**
+set wildignore+=**/node_modules/**,**/.git/**,**/dist/**,**/bin/**
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 syntax enable
