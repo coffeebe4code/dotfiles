@@ -33,24 +33,6 @@ hi PmenuSel ctermbg=black ctermfg=Cyan
 syntax enable
 set noeb vb t_vb=
 
-set laststatus=2
-set statusline=\ %-10.10{StatusLineColor()}
-set statusline+=%-7.7{&modified?'-[+]-':'-\|-'}
-set statusline+=%-20.20F
-set statusline+=%-7.7y
-
-let g:currentmode={
-      \ 'n'  : ['Normal ','yellow'],
-      \ 'v'  : ['Visual ', 'cyan'],
-      \ 'V'  : ['V·Line ', 'cyan'],
-      \ '^V' : ['V·Block ', 'cyan'],
-      \ 'i'  : ['Insert ','green'],
-      \ 'R'  : ['Replace ','red'],
-      \ 'Rv' : ['V·Replace ','red'],
-      \ 'c'  : ['Command ','magenta'],
-      \ 'r?' : ['Confirm ', 'green'],
-      \ 't'  : ['Terminal ', 'magenta']}
-
 let mapleader = ","
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -66,6 +48,7 @@ au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
+Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -73,12 +56,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 au CursorHold * silent call CocActionAsync('highlight')
-
-" functions
-function! StatusLineColor()
-	execute 'hi statusline ctermfg=' . g:currentmode[mode()][1]
-	return toupper(g:currentmode[mode()][0])
-endfunction
 
 function! SkipClosingPair()
   let line = getline('.')
