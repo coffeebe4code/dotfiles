@@ -57,6 +57,7 @@ call plug#end()
 
 au CursorHold * silent call CocActionAsync('highlight')
 
+" functions
 function! SkipClosingPair()
   let line = getline('.')
   let current_char = line[col('.')-1]
