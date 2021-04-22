@@ -48,12 +48,18 @@ au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+let vim_markdown_preview_github=1
+let vim_markdown_preview_temp_file=1
+let vim_markdown_preview_browser='Firefox'
+let vim_markdown_preview_toggle=3
 
 au CursorHold * silent call CocActionAsync('highlight')
 
@@ -115,6 +121,8 @@ inoremap " ""<Left>
 inoremap [ []<Left>
 
 nnoremap <C-L> :noh<CR><C-L>
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1, 1)\<cr>" : "\<Right>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0, -1)\<cr>" : "\<Left>"
 nmap <silent><leader>la <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>ld <Plug>(coc-diagnostic-next)
 nmap <silent><leader>lj <Plug>(coc-definition)
