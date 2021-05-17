@@ -1,9 +1,19 @@
+set background=dark
+set t_Co=256
 set nocompatible
+set nobackup
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set signcolumn=yes
+set hidden
 set whichwrap+=<,>,[,]
 set complete=.,w,b,u,t,i,]
 set ignorecase
 set ruler
 set number
+set shiftwidth=0
+set softtabstop=-1
 set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
@@ -18,81 +28,72 @@ set splitbelow
 set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
+set cursorline
+set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*
+set grepprg=ag\ --vimgrep
 
-highlight PmenuSel ctermbg=DarkMagenta guifg=Cyan ctermfg=Cyan guibg=DarkMagenta
+hi PmenuSel ctermbg=black ctermfg=Cyan
 syntax enable
-" disable bells
 set noeb vb t_vb=
 
 let mapleader = ","
 
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " plug Install automatically
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \| PlugInstall --sync | source $MYVIMRC
-\| endif
+au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+			\| PlugInstall --sync | source $MYVIMRC
+			\| endif
 
-let g:user_emmet_leader_key=","
+call plug#begin()
 
-set omnifunc=ale#completion#OmniFunc
-let g:ale_sign_column_always = 1
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-												\ 'rust':['rustfmt'],
-												\}
-let g:ale_linters = {
-												\ 'rust':['analyzer'],
-												\}
-
-call plug#begin('~/.vim/plugged')
-
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'vim-airline/vim-airline'
-Plug 'mattn/emmet-vim'
-Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
-Plug 'vim-scripts/AutoComplPop'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-inoremap { {}<Left>
-inoremap ( ()<Left>
-inoremap ' ''<Left>
-inoremap " ""<Left>
-inoremap [ []<Left>
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+let vim_markdown_preview_github=1
+let vim_markdown_preview_temp_file=1
+let vim_markdown_preview_browser='Firefox'
+let vim_markdown_preview_toggle=3
 
-inoremap <expr> <Tab> pumvisible() ? '<C-y>' : SkipClosingPair()
-
-nnoremap <leader>cb :vert :term cargo build<CR><C-w><C-w>
-nnoremap <leader>cr :vert :term cargo run<CR><C-w><C-w>
-nnoremap <leader>nt :vert :term npm run test<CR><C-w><C-w>
-nnoremap <leader>nr :vert :term npm run start<CR><C-w><C-w>
-
-" globals
-let g:mkdp_markdown_css='/home/christopher/source/website/src/assets/main.css'
+au CursorHold * silent call CocActionAsync('highlight')
 
 " functions
 function! SkipClosingPair()
-  let line = getline('.')
-  let current_char = line[col('.')-1]
-	"there is more"
-  "Ignore EOL
-  if col('.') == col('$')
-    return "\<Tab>"
-  end
-  return stridx("}])\'\"", current_char)==-1 ? "\<Tab>" : "\<Right>"
+	let line = getline('.')
+	let current_char = line[col('.')-1]
+	if col('.') == col('$')
+		return "\<Tab>"
+	end
+	return stridx("}])\'\"", current_char)==-1 ? "\<Tab>" : "\<Right>"
+endfunction
+
+function! SkipCheckAndRefresh()
+	let z = coc#refresh()
+	return SkipClosingPair()
+endfunction
+
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:show_documentation()
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	elseif (coc#rpc#ready())
+		call CocActionAsync('doHover')
+	else
+		execute '!' . &keywordprg . " " . expand('<cword>')
+	endif
 endfunction
 
 " mappings.
@@ -105,18 +106,60 @@ nnoremap <leader>te :tabedit<CR>
 nnoremap <leader>tp :tabp<CR>
 nnoremap <leader>tn :tabn<CR>
 
-nmap <silent> <leader>lg :ALEGoToDefinition<CR>
-nmap <silent> <leader>l. :ALECodeAction<CR>
-nmap <silent> <leader>ls :ALESymbolSearch<CR>
-nmap <silent> <leader>lr :ALERename<CR>
-nmap <silent> <leader>lh :ALEHover<CR>
-nmap <silent> <leader>l/ :ALEFindReferences<CR>
-nmap <silent> <leader>la <Plug>(ale_previous_wrap)
-nmap <silent> <leader>ld <Plug>(ale_next_wrap)
+" tmux
+nnoremap <leader>xk :!tmux kill-session -t<space>
+nnoremap <leader>xd :!tmux attach -d<CR>
 
-nnoremap <silent> <leader>ww <C-w>w<CR>
-nnoremap <silent> <leader>wh <C-w>h<CR>
-nnoremap <silent> <leader>wj <C-w>j<CR>
-nnoremap <silent> <leader>wk <C-w>k<CR>
+inoremap <silent><expr> <TAB>
+			\ pumvisible() ? "\<C-n>\<C-y>" :
+			\ <SID>check_back_space() ? "\<Tab>"  :
+			\ SkipCheckAndRefresh()
 
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <C-space> coc#refresh()
 
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+inoremap( ()<Left>
+inoremap' ''<Left>
+inoremap" ""<Left>
+inoremap[ []<Left>
+
+nnoremap <C-L> :noh<CR><C-L>
+nmap <silent><leader>la <Plug>(coc-diagnostic-prev)
+nmap <silent><leader>ld <Plug>(coc-diagnostic-next)
+nmap <silent><leader>lj <Plug>(coc-definition)
+nmap <silent><leader>l/ <Plug>(coc-references)
+
+nnoremap <silent><leader>lh :call <SID>show_documentation()<CR>
+
+nmap <leader>lr <Plug>(coc-rename)
+
+xmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>l. <Plug>(coc-codeaction)
+
+nmap <leader>sl :Sl<space>
+nmap <leader>sr :Sr<space>
+nmap <leader>da [c
+nmap <leader>dd c]
+nmap <leader>dp :diffput<CR>
+nmap <leader>dg :diffget<CR>
+nmap <leader>dr :diffget RE<CR>
+nmap <leader>db :diffget BA<CR>
+nmap <leader>dl :diffget LO<CR>
+
+function! SearchLiteral(search_glob) abort
+	let g:literal_search = a:search_glob
+	execute "silent! grep! " . g:literal_search . ""
+	copen
+endfunction
+
+function! SearchReplace(new) abort
+	execute 'cdo s/' . g:literal_search . '/' . a:new . '/ge | update'
+endfunction
+
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=* Sl :call SearchLiteral(<q-args>)
+command! -nargs=1 Sr :call SearchReplace(<f-args>)
