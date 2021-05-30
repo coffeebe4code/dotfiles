@@ -29,7 +29,7 @@ set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
-set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*
+set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*,*/target/*
 set grepprg=ag\ --vimgrep
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
@@ -58,11 +58,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
-
-let vim_markdown_preview_github=1
-let vim_markdown_preview_temp_file=1
-let vim_markdown_preview_browser='Firefox'
-let vim_markdown_preview_toggle=3
 
 au CursorHold * silent call CocActionAsync('highlight')
 
@@ -106,10 +101,6 @@ nnoremap <leader>te :tabedit<CR>
 nnoremap <leader>tp :tabp<CR>
 nnoremap <leader>tn :tabn<CR>
 
-" tmux
-nnoremap <leader>xk :!tmux kill-session -t<space>
-nnoremap <leader>xd :!tmux attach -d<CR>
-
 inoremap <silent><expr> <TAB>
 			\ pumvisible() ? "\<C-n>\<C-y>" :
 			\ <SID>check_back_space() ? "\<Tab>"  :
@@ -143,7 +134,7 @@ nmap <leader>l. <Plug>(coc-codeaction)
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
 nmap <leader>da [c
-nmap <leader>dd c]
+nmap <leader>dd ]c
 nmap <leader>dp :diffput<CR>
 nmap <leader>dg :diffget<CR>
 nmap <leader>dr :diffget RE<CR>
