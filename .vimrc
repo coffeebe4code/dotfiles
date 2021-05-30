@@ -140,6 +140,7 @@ nmap <leader>dg :diffget<CR>
 nmap <leader>dr :diffget RE<CR>
 nmap <leader>db :diffget BA<CR>
 nmap <leader>dl :diffget LO<CR>
+nmap <leader>ds :w !diff % -<CR>
 
 function! SearchLiteral(search_glob) abort
 	let g:literal_search = a:search_glob
