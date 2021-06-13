@@ -141,6 +141,7 @@ nmap <leader>l. <Plug>(coc-codeaction)
  
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
+nmap <leader>sn :CocCommand snippets.editSnippets<CR>
 nmap <leader>da [c
 nmap <leader>dd ]c
 nmap <leader>dp :diffput<CR>
