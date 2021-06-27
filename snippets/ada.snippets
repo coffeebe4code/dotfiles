@@ -23,65 +23,92 @@
 #		endsnippet
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
-snippet ./wiu "with and use" 
-with ${1}; use ${1};
+snippet withu "with and use" 
+with ${1:name}; use ${1:name};
 ${0}
 endsnippet
 
-snippet ./wi "with"
-with ${1};
+snippet with "with"
+with ${1:name};
 ${0}
 endsnippet
 
-snippet ./pro0 "procedure 0 arguments"
-procedure ${1}  is
-${2}
+snippet pro0 "procedure 0 arguments"
+procedure ${1:name} is
+	${2}
 begin
-${0}
+	${0}
 end ${1};
 endsnippet
 
-snippet ./pro1 "procedure w many arguments"
-procedure ${1} (${2}) is
-${3}
+snippet pro1 "procedure w many arguments"
+procedure ${1:name} (${2:args}) is
+	${3}
 begin
-${0}
+	${0}
 end ${1};
 endsnippet
 
-
-snippet ./pack "package w/o body"
-package ${1} is
-${0}
+snippet pack "package w/o body"
+package ${1:name} is
+	${0}
 end ${1};
 endsnippet
 
-snippet ./packb "package w body"
-package body ${1} is
-${0}
+snippet packb "package w body"
+package body ${1:name} is
+	${0}
 end ${1};
 endsnippet
 
-snippet ./f0 "function w 0 arguments"
-function ${1} return ${2} is
-${3}
+snippet func0 "function w 0 arguments"
+function ${1:name} return ${2:returns} is
+	${3}
 begin
-${0}
+	${0}
 end ${1};
 endsnippet
 
-snippet ./f1 "function w many arguments"
-function ${1} (${2})return ${3} is
-${4}
+snippet func1 "function w many arguments"
+function ${1:name} (${2:args}) return ${3:returns} is
+	${4}
 begin
-${0}
+	${0}
 end ${1};
 endsnippet
 
-snippet ./rec "record type"
-type ${1} is record
+snippet rec "record type"
+type ${1:name} is record
 	${0}
 end record;
 endsnippet
 
+snippet recd "record type discriminant"
+type ${1:name} (${2:descriminant}) is record
+	${0}
+end record;
+endsnippet
 
+snippet if "if end if"
+if ${1:thing} then
+	${0}
+end if;
+endsnippet
+
+snippet ife "if else end if"
+if ${1:thing} then
+	${2}
+else
+	${0}
+end if;
+endsnippet
+
+snippet ifel "if else if"
+if ${1:thing} then
+	${2}
+elsif
+	${3}
+else
+	${0}
+end if;
+endsnippet
