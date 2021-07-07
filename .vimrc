@@ -146,13 +146,15 @@ nmap <leader>da [c
 nmap <leader>dd ]c
 nmap <leader>dp :diffput<CR>
 nmap <leader>dg :diffget<CR>
-nmap <leader>dr :diffget RE<CR>
-nmap <leader>db :diffget BA<CR>
-nmap <leader>dl :diffget LO<CR>
+nmap <leader>dr :diffget REMOTE<CR>
+nmap <leader>db :diffget BASE<CR>
+nmap <leader>dl :diffget LOCAL<CR>
 nmap <leader>ds :w !diff % -<CR>
- 
+nmap <leader>dm /\|=======\|<CR> 
 nmap <leader>cl !silent :%s/^$\n//<CR>
- 
+
+nmap <leader>r :reg<CR>
+
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
 highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
