@@ -155,6 +155,10 @@ nmap <leader>cl !silent :%s/^$\n//<CR>
 
 nmap <leader>r :reg<CR>
 
+" Git mappings
+nnoremap <leader>ga :!git add %<CR>
+nnoremap <leader>gd :!git diff %<CR>
+
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
 highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
