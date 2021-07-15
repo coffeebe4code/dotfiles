@@ -132,9 +132,7 @@ nmap <silent><leader>lj <Plug>(coc-definition)
 nmap <silent><leader>l/ <Plug>(coc-references)
  
 nnoremap <silent><leader>lh :call <SID>show_documentation()<CR>
- 
 nmap <leader>lr <Plug>(coc-rename)
- 
 xmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>l. <Plug>(coc-codeaction)
