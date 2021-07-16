@@ -9,5 +9,9 @@ bindkey '^ ' autosuggest-accept
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="$HOME/llvm/12.0.0/bin:$HOME/opt/GNAT/2021/bin:$HOME/opt/GNAT/2021/libexec/gnatstudio/als:$PATH"
-export LLVM_SYS_120_PREFIX="$HOME/llvm/12.0.0/"
+alias gs="git status"
+alias gcm="git commit -m"
+alias gpo="git push -u origin"
+alias gps="git push"
+alias gpl="git pull"
+alias ga="git add -A"

@@ -30,8 +30,9 @@ set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
 set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*,*/target/*
-set grepprg=ag\ --vimgrep
- 
+set grepprg=ag\ --vimgrep\ $*
+set grepformat^=%f:%l:%c:%m
+
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
 
@@ -46,7 +47,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
- 
+
 " plug Install automatically
 au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     \| PlugInstall --sync | source $MYVIMRC
