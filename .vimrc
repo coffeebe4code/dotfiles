@@ -105,7 +105,6 @@ nnoremap dd "_dd
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History<CR>
-nnoremap <leader>ts :tabs<CR>
 nnoremap <leader>te :tabedit<CR>
 nnoremap <leader>tp :tabp<CR>
 nnoremap <leader>tn :tabn<CR>
@@ -121,11 +120,6 @@ inoremap <silent><expr> <C-space> coc#refresh()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
  
-inoremap( ()<Left>
-inoremap' ''<Left>
-inoremap" ""<Left>
-inoremap[ []<Left>
- 
 nnoremap <C-L> :noh<CR><C-L>
 nmap <silent><leader>la <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>ld <Plug>(coc-diagnostic-next)
@@ -134,8 +128,8 @@ nmap <silent><leader>l/ <Plug>(coc-references)
  
 nnoremap <silent><leader>lh :call <SID>show_documentation()<CR>
 nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>lf <Plug>(coc-format-selected)
-nmap <leader>lf <Plug>(coc-format-selected)
+xmap <leader>lf :Format
+nmap <leader>lf :Format
 nmap <leader>l. <Plug>(coc-codeaction)
  
 nmap <leader>sl :Sl<space>
