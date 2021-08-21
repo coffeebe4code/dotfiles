@@ -30,8 +30,10 @@ set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
 set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*,*/target/*
-set grepprg=ag\ --vimgrep\ $*
+set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
 set grepformat^=%f:%l:%c:%m
+set noswapfile
+set re=0
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
@@ -100,11 +102,11 @@ vmap <C-c> "+y<Esc>
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
 nnoremap <CR> i<CR>
-nnoremap dd "_dd
 
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History<CR>
+nnoremap <leader>ts :tabs<CR>
 nnoremap <leader>te :tabedit<CR>
 nnoremap <leader>tp :tabp<CR>
 nnoremap <leader>tn :tabn<CR>
@@ -128,8 +130,10 @@ nmap <silent><leader>l/ <Plug>(coc-references)
  
 nnoremap <silent><leader>lh :call <SID>show_documentation()<CR>
 nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>lf :Format
-nmap <leader>lf :Format
+xmap <leader>lF :Format<CR>
+xmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>lF :Format<CR>
+nmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>l. <Plug>(coc-codeaction)
  
 nmap <leader>sl :Sl<space>
@@ -164,9 +168,9 @@ function! SearchLiteral(search_glob) abort
 endfunction
  
 function! SearchReplace(new) abort
-  execute 'cdo s/' . g:literal_search . '/' . a:new . '/ge | update'
+  execute 'cdo s/' . g:literal_search . '/' . a:new
 endfunction
- 
+
 command! -nargs=0 Format :call CocAction('format')
 command! -nargs=* Sl :call SearchLiteral(<q-args>)
 command! -nargs=1 Sr :call SearchReplace(<f-args>)
