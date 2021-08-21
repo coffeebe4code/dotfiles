@@ -34,6 +34,8 @@ set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
 set grepformat^=%f:%l:%c:%m
 set noswapfile
 set re=0
+set nobackup
+set nowritebackup
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
@@ -99,6 +101,7 @@ endfunction
  
 " mappings.
 vmap <C-c> "+y<Esc>
+nnoremap <C-p> "*p<Esc>
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
 nnoremap <CR> i<CR>
@@ -123,18 +126,20 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
  
 nnoremap <C-L> :noh<CR><C-L>
-nmap <silent><leader>la <Plug>(coc-diagnostic-prev)
-nmap <silent><leader>ld <Plug>(coc-diagnostic-next)
-nmap <silent><leader>lj <Plug>(coc-definition)
-nmap <silent><leader>l/ <Plug>(coc-references)
+nmap <silent><leader>cp <Plug>(coc-diagnostic-prev)
+nmap <silent><leader>cy <Plug>(coc-type-definition)
+nmap <silent><leader>cn <Plug>(coc-diagnostic-next)
+nmap <silent><leader>cd <Plug>(coc-definition)
+nmap <silent><leader>ci <Plug>(coc-implmentation)
+nmap <silent><leader>c/ <Plug>(coc-references)
+nmap <leader>c. <Plug>(coc-codeaction)
  
-nnoremap <silent><leader>lh :call <SID>show_documentation()<CR>
-nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>lF :Format<CR>
-xmap <leader>lf <Plug>(coc-format-selected)
-nmap <leader>lF :Format<CR>
-nmap <leader>lf <Plug>(coc-format-selected)
-nmap <leader>l. <Plug>(coc-codeaction)
+nnoremap <silent><leader>ch :call <SID>show_documentation()<CR>
+nmap <leader>cr <Plug>(coc-rename)
+xmap <leader>cF :Format<CR>
+xmap <leader>cf <Plug>(coc-format-selected)
+nmap <leader>cF :Format<CR>
+nmap <leader>cf <Plug>(coc-format-selected)
  
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
