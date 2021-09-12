@@ -58,7 +58,7 @@ au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     \| endif
  
 call plug#begin()
- 
+
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -98,10 +98,15 @@ function! s:show_documentation()
   execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
- 
+
 " mappings.
-vmap <C-c> "+y<Esc>
+xmap <C-c> "+y<Esc>
 nnoremap <C-p> "*p<Esc>
+nnoremap c "3c
+nnoremap C "3C
+nnoremap d "4d
+nnoremap D "4D
+
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
 nnoremap <CR> i<CR>
@@ -156,6 +161,11 @@ nmap <leader>dm /\|=======\|<CR>
 nmap <leader>cl !silent :%s/^$\n//<CR>
 
 nmap <leader>r :reg<CR>
+nnoremap <leader>n :n<CR>
+nnoremap <space> }
+nnoremap <leader><space> {
+xnoremap <C-a> <C-a>gv
+xnoremap <C-x> <C-x>gv
 
 " Git mappings
 nnoremap <leader>ga :!git add %<CR>
