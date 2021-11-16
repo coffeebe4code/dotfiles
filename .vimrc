@@ -36,6 +36,7 @@ set noswapfile
 set re=0
 set nobackup
 set nowritebackup
+set makeprg=make\ -C\ build
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
@@ -138,13 +139,12 @@ nmap <silent><leader>cd <Plug>(coc-definition)
 nmap <silent><leader>ci <Plug>(coc-implmentation)
 nmap <silent><leader>c/ <Plug>(coc-references)
 nmap <leader>c. <Plug>(coc-codeaction)
- 
+nmap <leader>cm :make<CR>
+nmap <leader>ct :make test<CR>
 nnoremap <silent><leader>ch :call <SID>show_documentation()<CR>
 nmap <leader>cr <Plug>(coc-rename)
-xmap <leader>cF :Format<CR>
 xmap <leader>cf <Plug>(coc-format-selected)
-nmap <leader>cF :Format<CR>
-nmap <leader>cf <Plug>(coc-format-selected)
+nmap <leader>cf :Format<CR>
  
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
@@ -175,7 +175,17 @@ highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
 highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
 highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
- 
+
+function FormatBuffer()
+  if &modified
+    let cursor_pos = getpos('.')
+    :%!clang-format
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+
+autocmd BufWritePre *.h,*.c :call FormatBuffer()
+
 function! SearchLiteral(search_glob) abort
   let g:literal_search = a:search_glob
   execute "silent! grep! " . g:literal_search . ""
