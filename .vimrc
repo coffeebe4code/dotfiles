@@ -43,8 +43,13 @@ hi CocFloating ctermbg=black ctermfg=Cyan
 
 syntax enable
 
-set noeb vb t_vb=
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
 
+set noeb vb t_vb=
 let mapleader = ","
  
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -57,17 +62,14 @@ endif
 au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     \| PlugInstall --sync | source $MYVIMRC
     \| endif
- 
-call plug#begin()
 
+call plug#begin()
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
- 
 call plug#end()
- 
 au CursorHold * silent call CocActionAsync('highlight')
  
 " functions
@@ -107,6 +109,13 @@ nnoremap c "3c
 nnoremap C "3C
 nnoremap d "4d
 nnoremap D "4D
+vnoremap < <gv
+vnoremap > >gv
+
+nnoremap <leader>sk :m .-2<CR>
+nnoremap <leader>sj :m .+1<CR>
+inoremap <leader>sk :m '<-2<CR>gv
+inoremap <leader>sj :m '>+1<CR>gv
 
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
@@ -115,11 +124,7 @@ nnoremap <CR> i<CR>
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History<CR>
-nnoremap <leader>ts :tabs<CR>
-nnoremap <leader>te :tabedit<CR>
-nnoremap <leader>tp :tabp<CR>
-nnoremap <leader>tn :tabn<CR>
- 
+
 inoremap <silent><expr> <TAB>
     \ pumvisible() ? "\<C-n>\<C-y>" :
     \ <SID>check_back_space() ? "\<Tab>"  :
@@ -133,7 +138,6 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
  
 nnoremap <C-L> :noh<CR><C-L>
 nmap <silent><leader>cp <Plug>(coc-diagnostic-prev)
-nmap <silent><leader>cy <Plug>(coc-type-definition)
 nmap <silent><leader>cn <Plug>(coc-diagnostic-next)
 nmap <silent><leader>cd <Plug>(coc-definition)
 nmap <silent><leader>ci <Plug>(coc-implmentation)
@@ -158,18 +162,14 @@ nmap <leader>db :diffget BASE<CR>
 nmap <leader>dl :diffget LOCAL<CR>
 nmap <leader>ds :w !diff % -<CR>
 nmap <leader>dm /\|=======\|<CR> 
-nmap <leader>cl !silent :%s/^$\n//<CR>
 
 nmap <leader>r :reg<CR>
 nnoremap <leader>n :n<CR>
 nnoremap <space> }
-nnoremap <leader><space> {
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
 
 " Git mappings
-nnoremap <leader>ga :!git add %<CR>
-nnoremap <leader>gd :!git diff %<CR>
 
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
