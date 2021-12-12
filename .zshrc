@@ -3,6 +3,6 @@
 export ZSH="/home/chris/.oh-my-zsh"
 
 ZSH_THEME="random"
-plugins=(git zsh-autosuggesions)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
