@@ -1,17 +1,8 @@
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-export ZSH=$HOME/.oh-my-zsh
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export ZSH="/home/chris/.oh-my-zsh"
 
 ZSH_THEME="random"
-
-plugins=(git zsh-autosuggestions)
-
-bindkey '^ ' autosuggest-accept
+plugins=(git zsh-autosuggesions)
 
 source $ZSH/oh-my-zsh.sh
-
-alias gs="git status"
-alias gcm="git commit -m"
-alias gpo="git push -u origin"
-alias gps="git push"
-alias gpl="git pull"
-alias ga="git add -A"
