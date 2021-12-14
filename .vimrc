@@ -1,8 +1,5 @@
 set background=dark
 set t_Co=256
-set nocompatible
-set nobackup
-set nowritebackup
 set cmdheight=2
 set updatetime=300
 set signcolumn=yes
@@ -17,7 +14,6 @@ set expandtab
 set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
-set clipboard^=unnamedplus
 set shortmess+=c
 set timeoutlen=3000
 set completeopt=menuone,longest
@@ -37,17 +33,12 @@ set re=0
 set nobackup
 set nowritebackup
 set makeprg=make\ -C\ build
+set clipboard^=unnamed,unnamedplus
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
 
 syntax enable
-
-if system('uname -s') == "Darwin\n"
-  set clipboard=unnamed "OSX
-else
-  set clipboard=unnamedplus "Linux
-endif
 
 set noeb vb t_vb=
 let mapleader = ","
@@ -103,12 +94,9 @@ function! s:show_documentation()
 endfunction
 
 " mappings.
-xmap <C-c> "+y<Esc>
-nnoremap <C-p> "*p<Esc>
-nnoremap c "3c
-nnoremap C "3C
-nnoremap d "4d
-nnoremap D "4D
+nnoremap dd "_dd
+vnoremap d "_d
+vnoremap y "+y<Esc>
 vnoremap < <gv
 vnoremap > >gv
 
@@ -163,8 +151,6 @@ nmap <leader>dl :diffget LOCAL<CR>
 nmap <leader>ds :w !diff % -<CR>
 nmap <leader>dm /\|=======\|<CR> 
 
-nmap <leader>r :reg<CR>
-nnoremap <leader>n :n<CR>
 nnoremap <space> }
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
