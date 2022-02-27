@@ -1,8 +1,5 @@
 set background=dark
 set t_Co=256
-set nocompatible
-set nobackup
-set nowritebackup
 set cmdheight=2
 set updatetime=300
 set signcolumn=yes
@@ -17,7 +14,6 @@ set expandtab
 set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
-set clipboard^=unnamedplus
 set shortmess+=c
 set timeoutlen=3000
 set completeopt=menuone,longest
@@ -101,15 +97,12 @@ function! s:show_documentation()
 endfunction
 
 " mappings.
-nnoremap dd "_dd
-vnoremap d "_d<Esc>
 vnoremap < <gv
 vnoremap > >gv
  
 nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
-xmap <C-c> "+y<Esc>
-nnoremap <C-p> "*p<Esc>
+
 nnoremap c "3c
 nnoremap C "3C
 nnoremap d "4d
@@ -174,8 +167,6 @@ nmap <leader>ds :w !diff % -<CR>
 nmap <leader>dm /\|=======\|<CR> 
 nmap <leader>cl !silent :%s/^$\n//<CR>
 
-nmap <leader>r :reg<CR>
-nnoremap <leader>n :n<CR>
 nnoremap <space> }
 nnoremap <leader><space> {
 xnoremap <C-a> <C-a>gv
