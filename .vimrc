@@ -14,6 +14,7 @@ set expandtab
 set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
+set clipboard^=unnamedplus
 set shortmess+=c
 set timeoutlen=3000
 set completeopt=menuone,longest
@@ -56,7 +57,6 @@ au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     \| endif
 call plug#begin()
 
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -115,10 +115,6 @@ nnoremap <CR> i<CR>
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History<CR>
-nnoremap <leader>ts :tabs<CR>
-nnoremap <leader>te :tabedit<CR>
-nnoremap <leader>tp :tabp<CR>
-nnoremap <leader>tn :tabn<CR>
  
 inoremap <silent><expr> <TAB>
     \ pumvisible() ? "\<C-n>\<C-y>" :
@@ -142,22 +138,23 @@ nmap <silent><leader>ch :call <SID>show_documentation()<CR>
 
 nmap <leader>c. <Plug>(coc-codeaction)
 nmap <leader>mc :make --clean<CR>
-nmap <leader>md :make<CR>
+nmap <leader>md :make --debug<CR>
 nmap <leader>mr :make --release<CR>
 nmap <leader>ma :make --add 
-nmap <leader>mi :make --incremental %<CR> 
+nmap <leader>me :make --exe 
+nmap <leader>mb :make --build %<CR> 
 nnoremap <silent><leader>ch :call <SID>show_documentation()<CR>
 nmap <leader>cr <Plug>(coc-rename)
 xmap <leader>cf <Plug>(coc-format-selected)
 nmap <leader>cf :Format<CR>
 
-nmap <leader>cb :!gcc -Wall -Wextra -Werror -std=c11 -o ./nobuild ./nobuild.c<CR>
+nmap <leader>cb :!gcc -Wall -Wextra -Werror -o ./nobuild ./nobuild.c<CR>
 
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
 nmap <leader>sn :CocCommand snippets.editSnippets<CR>
-nmap <leader>da [c
-nmap <leader>dd ]c
+nmap <leader>dn [c
+nmap <leader>dN ]c
 nmap <leader>dp :diffput<CR>
 nmap <leader>dg :diffget<CR>
 nmap <leader>dr :diffget REMOTE<CR>
@@ -171,10 +168,6 @@ nnoremap <space> }
 nnoremap <leader><space> {
 xnoremap <C-a> <C-a>gv
 xnoremap <C-x> <C-x>gv
-
-" Git mappings
-nnoremap <leader>ga :!git add %<CR>
-nnoremap <leader>gd :!git diff %<CR>
 
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
@@ -190,6 +183,7 @@ function FormatBuffer()
 endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
+autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
 
 function! SearchLiteral(search_glob) abort
   let g:literal_search = a:search_glob
