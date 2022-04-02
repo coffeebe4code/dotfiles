@@ -34,6 +34,9 @@ set re=0
 set nobackup
 set nowritebackup
 set makeprg=./nobuild
+set errorformat+=%.%#[FAIL]%.%#file:\ %f\ =>\ line:\ %l%m%.%#
+set errorformat+=%.%#[ERRO]%m%.%#
+set errorformat+=%-G%.%#
 
 au FileType rust compiler rs
 
