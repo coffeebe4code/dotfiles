@@ -16,7 +16,7 @@ set laststatus=2
 set backspace=indent,eol,start
 set clipboard^=unnamedplus
 set shortmess+=c
-set timeoutlen=3000
+set timeoutlen=1000
 set completeopt=menuone,longest
 set hlsearch
 set incsearch
@@ -27,8 +27,6 @@ set wildmenu
 set wildmode=list:longest,longest:full
 set cursorline
 set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*,*/target/*
-set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
-set grepformat^=%f:%l:%c:%m
 set noswapfile
 set re=0
 set nobackup
@@ -37,8 +35,6 @@ set makeprg=./nobuild
 set errorformat+=%.%#[FAIL]%.%#file:\ %f\ =>\ line:\ %l%m%.%#
 set errorformat+=%.%#[ERRO]%m%.%#
 set errorformat+=%-G%.%#
-
-au FileType rust compiler rs
 
 hi PmenuSel ctermbg=black ctermfg=Cyan
 hi CocFloating ctermbg=black ctermfg=Cyan
@@ -106,11 +102,6 @@ vnoremap > >gv
 nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
 
-nnoremap c "3c
-nnoremap C "3C
-nnoremap d "4d
-nnoremap D "4D
-
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
 nnoremap <CR> i<CR>
@@ -131,46 +122,33 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
  
 nnoremap <C-L> :noh<CR><C-L>
-nnoremap <silent><leader>cp <Plug>(coc-diagnostic-prev)
+nmap <silent><leader>cp <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>cy <Plug>(coc-type-definition)
 nmap <silent><leader>cn <Plug>(coc-diagnostic-next)
 nmap <silent><leader>cd <Plug>(coc-definition)
 nmap <silent><leader>ci <Plug>(coc-implmentation)
 nmap <silent><leader>c/ <Plug>(coc-references)
 nmap <silent><leader>ch :call <SID>show_documentation()<CR>
+nmap <silent><leader>c. <Plug>(coc-codeaction)
+nmap <silent><leader>cr <Plug>(coc-rename)
+xmap <silent><leader>cf <Plug>(coc-format-selected)
+nmap <silent><leader>cf :Format<CR>
 
-nmap <leader>c. <Plug>(coc-codeaction)
 nmap <leader>mc :make --clean<CR>
 nmap <leader>md :make --debug<CR>
 nmap <leader>mr :make --release<CR>
 nmap <leader>ma :make --add 
 nmap <leader>me :make --exe 
 nmap <leader>mb :make --build %<CR> 
-nnoremap <silent><leader>ch :call <SID>show_documentation()<CR>
-nmap <leader>cr <Plug>(coc-rename)
-xmap <leader>cf <Plug>(coc-format-selected)
-nmap <leader>cf :Format<CR>
 
-nmap <leader>cb :!gcc -Wall -Wextra -Werror -o ./nobuild ./nobuild.c<CR>
+nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild.c<CR>
 
 nmap <leader>sl :Sl<space>
 nmap <leader>sr :Sr<space>
 nmap <leader>sn :CocCommand snippets.editSnippets<CR>
-nmap <leader>dn [c
-nmap <leader>dN ]c
-nmap <leader>dp :diffput<CR>
-nmap <leader>dg :diffget<CR>
-nmap <leader>dr :diffget REMOTE<CR>
-nmap <leader>db :diffget BASE<CR>
-nmap <leader>dl :diffget LOCAL<CR>
-nmap <leader>ds :w !diff % -<CR>
-nmap <leader>dm /\|=======\|<CR> 
-nmap <leader>cl !silent :%s/^$\n//<CR>
 
 nnoremap <space> }
 nnoremap <leader><space> {
-xnoremap <C-a> <C-a>gv
-xnoremap <C-x> <C-x>gv
 
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
@@ -186,18 +164,7 @@ function FormatBuffer()
 endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
+" autocmd BufWritePost *.h,*.c :make -b %
 autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
 
-function! SearchLiteral(search_glob) abort
-  let g:literal_search = a:search_glob
-  execute "silent! grep! " . g:literal_search . ""
-  copen
-endfunction
- 
-function! SearchReplace(new) abort
-  execute 'cdo s/' . g:literal_search . '/' . a:new
-endfunction
-
 command! -nargs=0 Format :call CocAction('format')
-command! -nargs=* Sl :call SearchLiteral(<q-args>)
-command! -nargs=1 Sr :call SearchReplace(<f-args>)

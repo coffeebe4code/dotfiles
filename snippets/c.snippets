@@ -24,35 +24,37 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-snippet _test
-#include "$1"
-
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-#include <stdio.h>
+snippet _nbtest
+#define MORE_COFFEE
+#define WITH_MOCKING
+#include "../include/$1.h"
+#include "../nobuild.h"
 
 int main() {
-	$0
+	DESCRIBE("$1");
+	SHOULDB("work", {
+		ASSERT(1 == 1);
+	});
+	RETURN();
 }
 
 endsnippet
 
 snippet _main
-int main() {
+int main(int argc, char ** argv) {
 	$0
 	return 0;
 }
 endsnippet
 
 snippet _for
-for (int i =0; i < ${1:length})
+for (int i =0; i < ${1:length}; i++)
 {
 	$0
 }
 endsnippet
 
-snippet	_dec
+snippet	_forward
 ${2:void} ${1:name}(${3:parameters});
 endsnippet
 
