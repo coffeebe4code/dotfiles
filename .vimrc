@@ -101,6 +101,7 @@ vnoremap > >gv
  
 nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
+nnoremap <space> }
 
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
@@ -122,7 +123,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
  
 nnoremap <C-L> :noh<CR><C-L>
-nmap <silent><leader>cp <Plug>(coc-diagnostic-prev)
+nmap <silent><leader>cp :call CocAction('diagnosticPrevious')<CR>
 nmap <silent><leader>cy <Plug>(coc-type-definition)
 nmap <silent><leader>cn <Plug>(coc-diagnostic-next)
 nmap <silent><leader>cd <Plug>(coc-definition)
@@ -136,6 +137,7 @@ nmap <silent><leader>cf :Format<CR>
 
 nmap <leader>mc :make --clean<CR>
 nmap <leader>md :make --debug<CR>
+nmap <leader>ms :make --debug --skip-tests<CR>
 nmap <leader>mr :make --release<CR>
 nmap <leader>ma :make --add 
 nmap <leader>me :make --exe 
@@ -143,12 +145,7 @@ nmap <leader>mb :make --build %<CR>
 
 nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild.c<CR>
 
-nmap <leader>sl :Sl<space>
-nmap <leader>sr :Sr<space>
 nmap <leader>sn :CocCommand snippets.editSnippets<CR>
-
-nnoremap <space> }
-nnoremap <leader><space> {
 
 highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
@@ -164,7 +161,6 @@ function FormatBuffer()
 endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
-" autocmd BufWritePost *.h,*.c :make -b %
 autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
 
 command! -nargs=0 Format :call CocAction('format')
