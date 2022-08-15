@@ -36,8 +36,6 @@ set errorformat+=%.%#[FAIL]%.%#file:\ %f\ =>\ line:\ %l%m%.%#
 set errorformat+=%.%#[ERRO]%m%.%#
 set errorformat+=%-G%.%#
 
-hi PmenuSel ctermbg=black ctermfg=Cyan
-hi CocFloating ctermbg=black ctermfg=Cyan
 syntax enable
 
 set noeb vb t_vb=
@@ -60,8 +58,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
- 
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 call plug#end()
+
+let g:seoul256_background = 236
+
+colo seoul256
+
+let g:goyo_width=120
 
 au CursorHold * silent call CocActionAsync('highlight')
 
@@ -134,6 +141,7 @@ nmap <silent><leader>c. <Plug>(coc-codeaction)
 nmap <silent><leader>cr <Plug>(coc-rename)
 xmap <silent><leader>cf <Plug>(coc-format-selected)
 nmap <silent><leader>cf :Format<CR>
+nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild-gcc.c<CR>
 
 nmap <leader>mc :make --clean<CR>
 nmap <leader>md :make --debug<CR>
@@ -141,16 +149,24 @@ nmap <leader>ms :make --debug --skip-tests<CR>
 nmap <leader>mr :make --release<CR>
 nmap <leader>ma :make --add 
 nmap <leader>me :make --exe 
-nmap <leader>mb :make --build %<CR> 
+nmap <leader>mb :make --build %<CR>
+nmap <leader>mt :!./target/e2e<CR>
 
-nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild.c<CR>
+nmap <leader>eg :Goyo<CR> 
+nmap <leader>em :MarkdownPreview<CR>
+nmap <leader>es :MarkdownPreviewStop<CR>
 
 nmap <leader>sn :CocCommand snippets.editSnippets<CR>
 
-highlight DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
-highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
-highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
-highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
+hi DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
+hi DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
+hi DiffChange cterm=NONE ctermfg=NONE ctermbg=23
+hi DiffText   cterm=NONE ctermfg=NONE ctermbg=23
+
+hi PmenuSel ctermbg=black ctermfg=Cyan
+hi CocFloating ctermbg=black ctermfg=Cyan
+hi WildMenu ctermbg=white ctermfg=black
+hi Pmenu ctermbg=white ctermfg=black
 
 function FormatBuffer()
   if &modified 
