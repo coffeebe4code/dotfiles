@@ -106,8 +106,8 @@ endfunction
 vnoremap < <gv
 vnoremap > >gv
  
-nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
+nnoremap <leader>sk :m .-2<CR>
 nnoremap <space> }
 
 nnoremap <BS> i<BS>
@@ -178,5 +178,6 @@ endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
 autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
+autocmd BufWritePre *.rs :call CocAction('format')
 
 command! -nargs=0 Format :call CocAction('format')
