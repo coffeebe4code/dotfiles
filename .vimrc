@@ -41,6 +41,7 @@ syntax enable
 set noeb vb t_vb=
 
 let mapleader = ","
+let g:termdebugger="rust-gdb"
  
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -143,6 +144,8 @@ xmap <silent><leader>cf <Plug>(coc-format-selected)
 nmap <silent><leader>cf :Format<CR>
 nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild-gcc.c<CR>
 
+nmap <leader>rb :!cargo build<CR>
+nmap <leader>md :make --debug<CR>
 nmap <leader>mc :make --clean<CR>
 nmap <leader>md :make --debug<CR>
 nmap <leader>ms :make --debug --skip-tests<CR>
@@ -157,6 +160,15 @@ nmap <leader>em :MarkdownPreview<CR>
 nmap <leader>es :MarkdownPreviewStop<CR>
 
 nmap <leader>sn :CocCommand snippets.editSnippets<CR>
+nmap <leader>tt :packadd termdebug<CR>
+nmap <leader>td :Termdebug target/debug/
+nmap <leader>tr :Run<CR>
+nmap <leader>tb :Break<CR>
+nmap <leader>ts :Step<CR>
+nmap <leader>tn :Over<CR>
+nmap <leader>ta :Arguments 
+nmap <leader>tc :Continue<CR> 
+nmap <leader>tl :Clear<CR> 
 
 hi DiffAdd  cterm=NONE ctermfg=NONE ctermbg=22
 hi DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
@@ -178,5 +190,6 @@ endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
 autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
+autocmd BufWritePre *.rs :call CocAction('format')
 
 command! -nargs=0 Format :call CocAction('format')
