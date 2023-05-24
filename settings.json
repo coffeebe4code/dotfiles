@@ -1,0 +1,56 @@
+{
+    "editor.inlayHints.enabled": "off",
+    "git.openRepositoryInParentFolders": "never",
+    "vim.vimrc.enable": true,
+    "vim.vimrc.path": "~/.vimrc",
+    "vim.leader": ",",
+"vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["d","d"],
+            "commands":["editor.action.deleteLines"],
+            "when":"textInputFocus && !editorReadonly"
+        },
+        {
+            "before":["y"],
+            "commands":["editor.action.clipboardCopyAction"],
+            "when":"textInputFocus"
+        },
+        {
+            "before":["y","y"],
+            "commands":["editor.action.clipboardCopyAction"],
+            "when":"textInputFocus"
+        },
+        {
+            "before":["<leader>","c", "n"],
+            "commands":["editor.action.marker.next"],
+            "when":"editorFocus"
+        },
+        {
+            "before":["<leader>","c", "h"],
+            "commands":["editor.action.showHover"],
+            "when":"editorFocus"
+        },
+        {
+            "before":["p"],
+            "commands":["editor.action.clipboardPasteAction"],
+            "when":"textInputFocus && !editorReadonly"
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive":[
+        {
+            "before":["y"],
+            "commands":["editor.action.clipboardCopyAction"],
+            "when":"textInputFocus"
+        },
+        {
+            "before":["y","y"],
+            "commands":["editor.action.clipboardCopyAction"],
+            "when":"textInputFocus"
+        },
+        {
+            "before":["x"],
+            "commands":["deleteRight"],
+            "when":"textInputFocus"
+        },
+    ]
+}

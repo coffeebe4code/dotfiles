@@ -144,7 +144,7 @@ xmap <silent><leader>cf <Plug>(coc-format-selected)
 nmap <leader>cb :!gcc -Wall -Wextra -Werror -O3 -pthread -o ./nobuild ./nobuild-gcc.c<CR>
 
 nmap <leader>zb :!zig build<CR>
-nmap <leader>zt :!zig test<CR>
+nmap <leader>zt :!zig build test<CR>
 
 nmap <leader>rb :!cargo build<CR>
 
@@ -183,5 +183,5 @@ endfunction
 
 autocmd BufWritePre *.h,*.c :call FormatBuffer()
 "autocmd BufWritePre *.zig :silent !zig fmt % 
-autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
+"autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
 autocmd BufWritePre *.rs :call CocAction('format')
