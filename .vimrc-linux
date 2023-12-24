@@ -1,11 +1,10 @@
-set background=dark
+set background=light
 set t_Co=256
 set updatetime=300
 set signcolumn=yes
 set hidden
 set whichwrap+=<,>,[,]
 set complete=.,w,b,u,t,i,]
-set ignorecase
 set ruler
 set number
 set shiftwidth=2
@@ -24,17 +23,12 @@ set splitbelow
 set splitright
 set wildmenu
 set wildmode=list:longest,longest:full
-set cursorline
 set wildignore+=*/node_modules/*,*/.git/*,*/dist/*,*/bin/*,*/out/*,*/target/*
 set noswapfile
 set re=0
-set nobackup
-set nowritebackup
-
-syntax enable
-
 set noeb vb t_vb=
 
+syntax enable
 let mapleader = ","
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -43,27 +37,18 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" plug Install automatically
-au VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    \| PlugInstall --sync | source $MYVIMRC
-    \| endif
- 
 call plug#begin()
-
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
 Plug 'junegunn/seoul256.vim'
+Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
 call plug#end()
 
-colo seoul256
-" au CursorHold * silent call CocActionAsync('highlight')
+colo seoul256-light
 
-" functions
 function! SkipClosingPair()
   let line = getline('.')
   let current_char = line[col('.')-1]
@@ -72,18 +57,13 @@ function! SkipClosingPair()
   end
   return stridx("}])\'\"", current_char)==-1 ? "\<Tab>" : "\<Right>"
 endfunction
-"  
-function! SkipCheckAndRefresh()
-  return SkipClosingPair()
-endfunction
  
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-"  
 
-" ALE setup
+" ALE Setup
 let g:ale_completion_enabled = 1
 set omnifunc=ale#completion#OmniFunc
 let g:ale_linters = { 'javascript': ['eslint'], 'typescript': ['eslint', 'tsserver'] }
@@ -100,6 +80,7 @@ vnoremap > >gv
 nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
 nnoremap <space> }
+vnoremap <space> }
 
 nnoremap <BS> i<BS>
 nnoremap <Del> i<Del>
@@ -111,25 +92,23 @@ nnoremap <leader>h :History<CR>
  
 inoremap <silent><expr> <TAB>
     \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ SkipCheckAndRefresh()
+    \ SkipClosingPair()
 
 inoremap <silent><expr> <CR>
     \ pumvisible() ? "\<C-y>" :
     \ "\<CR>"
  
 nnoremap <C-L> :noh<CR><C-L>
-nmap <silent><leader>cp <Plug>(ale_previous_wrap)
-nmap <silent><leader>cn <Plug>(ale_next_wrap)
-nmap <silent><leader>cd <Plug>(ale_go_to_definition)
-nmap <silent><leader>ci <Plug>(ale_go_to_implementation)
-nmap <silent><leader>c/ <Plug>(ale_find_references)
-nmap <silent><leader>ch <Plug>(ale_hover)
-nmap <silent><leader>c. <Plug>(ale_code_action)
-nmap <silent><leader>cr <Plug>(ale_rename)
+nnoremap <silent><leader>cp <Plug>(ale_previous_wrap)
+nnoremap <silent><leader>cn <Plug>(ale_next_wrap)
+nnoremap <silent><leader>cd <Plug>(ale_go_to_definition)
+nnoremap <silent><leader>ci <Plug>(ale_go_to_implementation)
+nnoremap <silent><leader>c/ <Plug>(ale_find_references)
+nnoremap <silent><leader>ch <Plug>(ale_hover)
+nnoremap <silent><leader>c. <Plug>(ale_code_action)
+nnoremap <silent><leader>cr <Plug>(ale_rename)
 
-nmap <leader>em :MarkdownPreview<CR>
-nmap <leader>es :MarkdownPreviewStop<CR>
-
-" autocmd BufWritePre *.json,*.ts,*.js :call CocAction('format')
-" autocmd BufWritePre *.rs :call CocAction('format')
+nnoremap <leader>em :MarkdownPreview<CR>
+nnoremap <leader>ed :colorscheme seoul256<CR>
+nnoremap <leader>el :colorscheme seoul256-light<CR>
+nnoremap <leader>es :MarkdownPreviewStop<CR>
