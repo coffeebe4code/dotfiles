@@ -63,12 +63,22 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Snippets Setup
+let g:SimpleSnippetsExpandOrJumpTrigger = "<CR>"
+
 " ALE Setup
 let g:ale_completion_enabled = 1
 set omnifunc=ale#completion#OmniFunc
-let g:ale_linters = { 'javascript': ['eslint'], 'typescript': ['eslint', 'tsserver'] }
-let g:ale_fixers = { 'javascript': ['eslint'], 'typescript': ['eslint', 'prettier'] }
+let g:ale_linters = { 
+      \ 'javascript': ['eslint'], 
+      \ 'typescript': ['eslint', 'tsserver'], 
+      \ }
+let g:ale_fixers = { 
+      \ 'javascript': ['eslint'], 
+      \ 'typescript': ['eslint', 'prettier'], 
+      \ }
 let g:ale_linters_explicit = 1
+let g:ale_hover_to_preview = 1
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
@@ -79,6 +89,7 @@ vnoremap > >gv
  
 nnoremap <leader>sk :m .-2<CR>
 nnoremap <leader>sj :m .+1<CR>
+
 nnoremap <space> }
 vnoremap <space> }
 
@@ -99,14 +110,14 @@ inoremap <silent><expr> <CR>
     \ "\<CR>"
  
 nnoremap <C-L> :noh<CR><C-L>
-nnoremap <silent><leader>cp <Plug>(ale_previous_wrap)
-nnoremap <silent><leader>cn <Plug>(ale_next_wrap)
-nnoremap <silent><leader>cd <Plug>(ale_go_to_definition)
-nnoremap <silent><leader>ci <Plug>(ale_go_to_implementation)
-nnoremap <silent><leader>c/ <Plug>(ale_find_references)
-nnoremap <silent><leader>ch <Plug>(ale_hover)
-nnoremap <silent><leader>c. <Plug>(ale_code_action)
-nnoremap <silent><leader>cr <Plug>(ale_rename)
+nnoremap <silent><leader>cp :ALEPreviousWrap<CR>
+nnoremap <silent><leader>cn :ALENextWrap<CR>
+nnoremap <silent><leader>cd :ALEGoToDefinition<CR>
+nnoremap <silent><leader>ci :ALEGoToImplementation<CR>
+nnoremap <silent><leader>c/ :ALEFindReferences<CR>
+nnoremap <silent><leader>ch :ALEHover<CR>
+nnoremap <silent><leader>c. :ALECodeAction<CR>
+nnoremap <silent><leader>cr :ALERename<CR>
 
 nnoremap <leader>em :MarkdownPreview<CR>
 nnoremap <leader>ed :colorscheme seoul256<CR>
