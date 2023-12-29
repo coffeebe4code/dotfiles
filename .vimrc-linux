@@ -15,7 +15,7 @@ set backspace=indent,eol,start
 set clipboard^=unnamedplus
 set shortmess+=c
 set timeoutlen=1000
-set completeopt=menuone,longest
+set completeopt=menuone,longest,noselect
 set hlsearch
 set incsearch
 set showmatch
@@ -82,6 +82,7 @@ let g:ale_fixers = {
       \ 'json': ['prettier'], 
       \ 'css': ['prettier'], 
       \ 'html': ['prettier'], 
+      \ 'yaml': ['prettier'], 
       \ 'rust': ['rustfmt'], 
       \ 'zig': ['zigfmt'], 
       \ }
@@ -133,3 +134,12 @@ nnoremap <leader>em :MarkdownPreview<CR>
 nnoremap <leader>ed :colorscheme seoul256<CR>
 nnoremap <leader>el :colorscheme seoul256-light<CR>
 nnoremap <leader>es :MarkdownPreviewStop<CR>
+
+nnoremap <leader>gn :GitGutterNextHunk<CR>
+nnoremap <leader>gp :GitGutterPrevHunk<CR>
+nnoremap <leader>gs :GitGutterPreviewHunk<CR>
+nnoremap <leader>gf :Ggqf<CR>
+nnoremap <leader>gu :GitGutterUndoHunk<CR>
+nnoremap <leader>gd :GitGutterDiffOrig<CR>
+
+command! Ggqf :GitGutterQuickFix | copen
