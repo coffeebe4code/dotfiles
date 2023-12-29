@@ -1,8 +1,14 @@
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+export ZSH=$HOME/.oh-my-zsh
 
-export ZSH="/home/chris/.oh-my-zsh"
+ZSH_THEME="awesomepanda"
 
-ZSH_THEME="random"
 plugins=(git zsh-autosuggestions)
 
+bindkey '^ ' autosuggest-accept
+
 source $ZSH/oh-my-zsh.sh
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,target}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
