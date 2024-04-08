@@ -2,9 +2,16 @@
 
 ### Windows
 
-- Install gitbash located [here](https://gitforwindows.org/).
-- Install choco located [here](https://chocolatey.org/install).
-- Install node located [here](https://nodejs.org/en/).
-- Install Plug located [here](https://github.com/junegunn/vim-plug).
-- Put .vimrc-win in `~/_vimrc'
-- On first open run `:PlugInstall`
+- Install wsl2.
+- Install oh-my-zsh.
+- Possibly install autosuggestions
+- Copy .zshrc and .vimrc
+- Install nvm.
+- Install tmux.
+- Install vim.
+
+```
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt update
+sudo apt install vim-gtk3
+```
