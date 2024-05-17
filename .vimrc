@@ -1,6 +1,5 @@
 set signcolumn=yes
 set whichwrap+=<,>,h,l,[,]
-set complete=.,w,b,u,t,i
 set ruler
 set number
 set shiftwidth=2
@@ -9,7 +8,6 @@ set tabstop=2
 set laststatus=2
 set backspace=indent,eol,start
 set clipboard^=unnamed "unnamedplus
-set shortmess+=c
 set completeopt=menuone,longest,noselect,noinsert
 set hlsearch
 set incsearch
@@ -41,7 +39,6 @@ Plug 'coffeebe4code/type-lang.vim'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'ronakg/quickr-preview.vim'
 call plug#end()
 
 colo seoul256-light
@@ -64,8 +61,6 @@ let g:ale_fixers = {  'javascript': ['prettier'], 'typescript': ['prettier'],
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-nnoremap <BS> i<BS>
-nnoremap <CR> i<CR>
 nnoremap <C-L> :noh<CR><C-L>
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
@@ -87,3 +82,8 @@ nnoremap <leader>gs :GitGutterPreviewHunk<CR>
 nnoremap <leader>gg :GitGutterQuickFix<BAR> copen<CR>
 nnoremap <leader>gu :GitGutterUndoHunk<CR>
 nnoremap <leader>gd :GitGutterDiffOrig<CR>
+nnoremap <leader>dm /=======<CR>
+nnoremap <leader>dn ]c
+nnoremap <leader>dr :diffget RE<CR>
+nnoremap <leader>dl :diffget LO<CR>
+nnoremap <leader>db :diffget BASE<CR>
